@@ -1,4 +1,4 @@
-# Reporting issues #
+# Reporting issues
 
 We regularly get reports on installation problems, and we do not have the resources at the moment to deal with all of them. 
 One complicating factor is that some of these reports are incomplete and not reproducible, which can make it impossible to help. If you run into an issue, please try to provide a detailed report along the lines below, or if it is an issue that affects more users, file an issue using the *bug* template.

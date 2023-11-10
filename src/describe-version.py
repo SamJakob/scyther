@@ -18,18 +18,20 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """
 
-def writeTag(tag=None):
+
+def write_tag(tag=None):
     """
     Write tag file
     """
-    if tag == None:
+    if tag is None:
         tag = "unknown"
-    fp = open('version.h','w')
+    fp = open('version.h', 'w')
     s = "#define TAGVERSION \"%s\"\n" % tag
     fp.write(s)
     fp.close()
 
-def getDescription():
+
+def get_description():
     """
     If possible, use Git to extract a description of the current commit
     """
@@ -37,7 +39,7 @@ def getDescription():
     try:
         import sys
         import subprocess
-        res = subprocess.check_output(["git","describe","--tags","--dirty"]+sys.argv[1:])
+        res = subprocess.check_output(["git", "describe", "--tags", "--dirty"] + sys.argv[1:])
         res = res.strip()
     except:
         res = None
@@ -46,8 +48,5 @@ def getDescription():
 
 
 if __name__ == '__main__':
-    tag = getDescription()
-    writeTag(tag)
-    print(tag)
-
-
+    tag = get_description()
+    write_tag(tag)

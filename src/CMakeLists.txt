@@ -1,18 +1,22 @@
-################################################################
-# Name:		CMakeLists.txt
-# Purpose:	Input file for CMake for the Scyther tool
-# Author:	Cas Cremers
-################################################################
+# Run the describe-version.py script to generate the version.h file
+add_custom_command(
+	OUTPUT version.h
+	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/describe-version.py
+	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/describe-version.py
+)
 
-# Scyther project
-project (Scyther)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.18)
+# If we are in a debug mode we want to be strict
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -DDEBUG")
 
-# Try clang
-#set (CMAKE_C_COMPILER "clang")
+# c11 standard has different inline semantics, yields warning.
+# Since c11 is the default for gcc 5, we explicitly include the switch.
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu89")
+
+# Make scanner and parser
+include(ScannerParser.cmake)
 
 # List all the source files
-set (Scyther_sources
+set(SCYTHER_SOURCES
 	arachne.c binding.c claim.c color.c compiler.c cost.c
 	debug.c depend.c dotout.c error.c heuristic.c hidelevel.c
 	intruderknowledge.c knowledge.c label.c list.c main.c mgu.c
@@ -20,19 +24,13 @@ set (Scyther_sources
 	specialterm.c states.c switches.c symbol.c system.c tac.c
 	tempfile.c
 	termlist.c termmap.c term.c timer.c type.c warshall.c xmlout.c
-	parser.c scanner.c
+	${BISON_PARSER_OUTPUTS} ${FLEX_SCANNER_OUTPUTS}
   )
 
-# If we are in a debug mode we want to be strict
-set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -DDEBUG")
+# Build the executable
+add_executable(${SCYTHER_EXECUTABLE_NAME}
+		${SCYTHER_SOURCES}
+		version.h)
 
-# c11 standard has different inline semantics, yields warning.
-# Since c11 is the default for gcc 5, we explicitly include the switch.
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu89")
-
-# Make scanner and parser
-include (ScannerParser.cmake)
-
-# Set build target settings according to platform
-include (BuildPlatform.cmake)
-
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})

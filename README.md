@@ -1,5 +1,4 @@
-The Scyther tool repository
-===========================
+# Scyther Core
 
 This README describes the organization of the repository of the Scyther
 tool for security protocol analysis. Its intended audience are
@@ -12,7 +11,7 @@ Installing from source
 ----------------------
 
 We use Linux during the development of Scyther, but development on
-Windows and MAC OS X should be equally feasible. Note that the below
+Windows and macOS should be equally feasible. Note that the below
 instructions are written from a Linux/Ubuntu perspective, and probably
 need modifications for other platforms.
 
@@ -73,4 +72,3 @@ License
 
 Currently these Scyther sources are licensed under the GPL 2, as indicated in
 the source code. Contact Cas Cremers if you have any questions.
-
